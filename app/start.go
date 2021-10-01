@@ -5,4 +5,5 @@ package app
 
 func Start() {
 	// panggil function ConnectToDB
+	ConnectToDB()
 }
