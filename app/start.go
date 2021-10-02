@@ -15,6 +15,11 @@ func Start() {
 	e := echo.New()
 
 	routes.API(e)
-	e.Start(":3000")
+
+	go func() {
+		if err := e.Start(":3000"); err != nil {
+			e.Logger.Info("Shutting down the server")
+		}
+	}()
 
 }
