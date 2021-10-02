@@ -2,6 +2,8 @@ package app
 
 import (
 	"futsal-app/routes"
+	"os"
+	"os/signal"
 
 	"github.com/labstack/echo"
 )
@@ -21,5 +23,9 @@ func Start() {
 			e.Logger.Info("Shutting down the server")
 		}
 	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
 
 }
