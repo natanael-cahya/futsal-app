@@ -4,22 +4,14 @@ package routes
 // yang nantinya akan merefer ke masing masing route domain
 import (
 	"net/http"
-	"time"
 
-	"github.com/hellofresh/health-go/v4"
-	healthMysql "github.com/hellofresh/health-go/v4/checks/mysql"
+	"github.com/labstack/echo"
 )
 
-func HealthChecks() {
-	h, _ := health.New()
-	h.Register(health.Config{
-		Name:      "Mysql-Checks",
-		Timeout:   time.Second * 2,
-		SkipOnErr: false,
-		Check: healthMysql.New(healthMysql.Config{
-			DSN: "root@tcp(127.0.0.1:3306)/db_futsal?charset=utf8mb4",
-		}),
+func API(e *echo.Echo) {
+	e.GET("health", func(c echo.Context) error {
+
+		return c.JSON(http.StatusOK, map[string]string{"Status": "Normal"})
+
 	})
-	http.Handle("/status", h.Handler())
-	http.ListenAndServe(":3000", nil)
 }
